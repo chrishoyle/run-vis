@@ -53,10 +53,9 @@ function render(id) {
 
 function selectActivity(index) {
   selectedId = index;
-  console.log("feats.length",feats);
+
   if (selectedId < 0) {
     selectedId = Object.keys(feats).length - 1;
-    console.log("feats.length");
   } else if (selectedId >= Object.keys(feats).length){
     selectedId = 0;
   }
@@ -64,7 +63,32 @@ function selectActivity(index) {
   render(selectedId);
 }
 
-d3.json('./my_runs.geojson',(error, data)  => {
+function trans() {
+  let select_path = d3.select("svg path");
+  console.log("select_path",select_path);
+  select_path.transition()
+      .duration(7500)
+      .attrTween("stroke-dasharray", tweenDash); 
+} 
+
+
+function tweenDash() {
+  let select_path = d3.select("svg path");
+    return function(t) {
+        var l = select_path.node().getTotalLength(); 
+
+        let interpolate = d3.interpolateString("0," + l, l + "," + l);
+        //var marker = d3.select("#marker");
+
+        var p = select_path.node().getPointAtLength(t * l);
+
+        //marker.attr("transform", "translate(" + p.x + "," + p.y + ")"); 
+        console.log(interpolate(t))
+        return interpolate(t);
+    }
+} 
+
+d3.json('./runs.geojson',(error, data)  => {
     if (error) throw error;
 
     var i = 0;
@@ -120,16 +144,16 @@ d3.select("body").on("keydown", () => {
 d3.select("#previous").on("click", () => {
   selectActivity(selectedId - 1);
   setPrettyColor();
-  console.log(selectedId)
 });
 
 d3.select("#next").on("click", () => {
   selectActivity(selectedId + 1);
   setPrettyColor();
-  console.log(selectedId)
 });
 
-
+d3.select("#play").on("click", () => {
+  trans();
+});
 
 
 

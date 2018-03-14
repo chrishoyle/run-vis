@@ -5,8 +5,8 @@ let selectedId = 0;
 let feats = {};
 var mainDiv = document.getElementById('display');
 
-var w = 300,
-    h = 300;
+var w = 400,
+    h = 400;
 
 var path_str = d3.geo.path();
 
@@ -19,7 +19,6 @@ var path = d3.geo.path()
 
 
 function render(id) {
-
     projection.scale(1)
               .translate([0, 0]);
 
@@ -71,7 +70,6 @@ function trans() {
       .attrTween("stroke-dasharray", tweenDash); 
 } 
 
-
 function tweenDash() {
   let select_path = d3.select("svg path");
     return function(t) {
@@ -88,7 +86,7 @@ function tweenDash() {
     }
 } 
 
-d3.json('./runs.geojson',(error, data)  => {
+d3.json('./my_runs.geojson',(error, data)  => {
     if (error) throw error;
 
     var i = 0;
@@ -103,8 +101,8 @@ d3.json('./runs.geojson',(error, data)  => {
 
     d3.select("#display")
       .append("svg")
-      .attr("width", "55%")
-      .attr("height", "55%")
+      .attr("width", "80%")
+      .attr("height", "80%")
       .attr("viewBox", "0 0 " + w + " " + h)
       .append("path")
       .attr("fill", "none")
@@ -139,7 +137,6 @@ d3.select("body").on("keydown", () => {
     setPrettyColor();
   }
 });
-
 
 d3.select("#previous").on("click", () => {
   selectActivity(selectedId - 1);

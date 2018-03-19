@@ -152,5 +152,12 @@ d3.select("#play").on("click", () => {
   trans();
 });
 
+d3.select("#download-svg").on("click", function(){
+  console.log(this)
+  d3.select(this)
+    .attr("href", 'data:application/octet-stream;base64,' + btoa(d3.select("#display").html()))
+    .attr("download", "run.svg") 
+})
+
 
 
